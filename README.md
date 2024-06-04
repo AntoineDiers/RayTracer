@@ -2,6 +2,8 @@
 
 A basic ray tracing engine that runs on Cuda-compatible GPUs
 
+**Documentation** : https://antoinediers.github.io/RayTracer/DoxyGen/html/
+
 ## Algorithm Overview
 
 1. Photon Mapping
