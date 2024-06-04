@@ -25,3 +25,5 @@ Phong's Model : https://en.wikipedia.org/wiki/Phong_reflection_model
 
 Fresnel Coefficients : https://fr.wikipedia.org/wiki/Coefficients_de_Fresnel
 
+![example](https://github.com/AntoineDiers/RayTracer/assets/34224948/762739d9-68f3-4819-a016-8b3efd6f065c)
+
