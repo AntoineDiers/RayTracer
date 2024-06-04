@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['get_0',['Get',['../class_ray_tracer_lib_1_1_materials_library.html#a2f78b21a3436a1a3c99e8f0975bcf5df',1,'RayTracerLib.MaterialsLibrary.Get()'],['../class_ray_tracer_lib_1_1_texture_library.html#ab5ab396c8124f6e946b5ea34d3e5b6a2',1,'RayTracerLib.TextureLibrary.Get()']]],
+  ['getaxisvalue_1',['GetAxisValue',['../class_ray_tracer_lib_1_1_photon_tree.html#a0d8e903039b122a2dd8e60ab15cd37ff',1,'RayTracerLib::PhotonTree']]],
+  ['getdistancelowerbound_2',['GetDistanceLowerBound',['../struct_ray_tracer_lib_1_1_ray.html#ab95bce05742f4691ee9c2688855214c0',1,'RayTracerLib::Ray']]],
+  ['getfirstcollision_3',['GetFirstCollision',['../class_ray_tracer_lib_1_1_collision_finder.html#a942131ff060f25d5f6a992411574aadc',1,'RayTracerLib::CollisionFinder']]],
+  ['getnormal_4',['GetNormal',['../struct_ray_tracer_lib_1_1_triangle.html#acefa39b06420d9b4edfe17c37c96971d',1,'RayTracerLib::Triangle']]],
+  ['getray_5',['GetRay',['../class_ray_tracer_lib_1_1_camera.html#a272f491513eb4d2d04ec549b2767013e',1,'RayTracerLib::Camera']]],
+  ['getreflectioncoeff_6',['GetReflectionCoeff',['../class_ray_tracer_lib_1_1_reflection.html#aae6e96292fda2837904b860f84c14282',1,'RayTracerLib::Reflection']]],
+  ['getresolution_7',['GetResolution',['../class_ray_tracer_lib_1_1_camera.html#affd7aea13d074ec05f7eb66db5e881ed',1,'RayTracerLib::Camera']]],
+  ['getsmartmesh_8',['GetSmartMesh',['../class_ray_tracer_lib_1_1_asset.html#ad83748cb1ee6ef4b92698037ae14cbf1',1,'RayTracerLib::Asset']]],
+  ['gettrianglecolor_9',['GetTriangleColor',['../class_ray_tracer_lib_1_1_ray_tracer.html#afc30aaeffcbc7469e933c479ee8723d6',1,'RayTracerLib::RayTracer']]],
+  ['getworstneighbordistsquared_10',['GetWorstNeighborDistSquared',['../class_ray_tracer_lib_1_1_nearest_neighbor_search.html#aec2167b1b3404c92374566d6ca7cf4d8',1,'RayTracerLib::NearestNeighborSearch']]],
+  ['glassmaterial_11',['glassMaterial',['../_program_8cs.html#ae78884de5e458c06775bc223662da4a3',1,'Program.cs']]],
+  ['glassmaterialindex_12',['glassMaterialIndex',['../_program_8cs.html#ab82eb20c79718ed1e77e3742b5ab5f0d',1,'Program.cs']]],
+  ['glasssphere_13',['glassSphere',['../_program_8cs.html#a18ebd1ecac2e076e5f11195812a73075',1,'Program.cs']]],
+  ['glassspheremesh_14',['glassSphereMesh',['../_program_8cs.html#adcaf73e4d6c89b7f83eefd77fca893f6',1,'Program.cs']]],
+  ['globalvariables_15',['GlobalVariables',['../class_ray_tracer_lib_1_1_global_variables.html',1,'RayTracerLib']]],
+  ['globalvariables_2ecs_16',['GlobalVariables.cs',['../_global_variables_8cs.html',1,'']]],
+  ['gpuphotonneighbor_17',['GpuPhotonNeighbor',['../namespace_ray_tracer_lib.html#aae4b474d3b24a195fb926cd4e0413323',1,'RayTracerLib']]],
+  ['gpuphotontreenode_18',['GpuPhotonTreeNode',['../struct_ray_tracer_lib_1_1_gpu_photon_tree_node.html',1,'RayTracerLib']]],
+  ['gpusubmesh_19',['GpuSubMesh',['../namespace_ray_tracer_lib.html#a8993c9f6c15f88edbf76b49e35499424',1,'RayTracerLib']]],
+  ['gputexturemetadata_20',['GpuTextureMetadata',['../struct_ray_tracer_lib_1_1_gpu_texture_metadata.html',1,'RayTracerLib']]],
+  ['greenwallmaterial_21',['greenWallMaterial',['../_program_8cs.html#a8e3c1c2c4dad8147d40ebf94960d4050',1,'Program.cs']]],
+  ['greenwallmaterialindex_22',['greenWallMaterialIndex',['../_program_8cs.html#a5787d086568119fbce5382a7b77e825d',1,'Program.cs']]]
+];

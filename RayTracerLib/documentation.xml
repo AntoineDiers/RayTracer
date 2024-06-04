@@ -1,0 +1,1052 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RayTracerLib</name>
+    </assembly>
+    <members>
+        <member name="T:RayTracerLib.BoundingBox">
+            <summary>
+            Smallest axis-aligned cuboid that contains a set of points
+            </summary>
+            <remarks> This has to be a public struct because it is used in GPU code </remarks>
+        </member>
+        <member name="F:RayTracerLib.BoundingBox.center">
+            <summary> The center of the bounding box </summary>
+        </member>
+        <member name="F:RayTracerLib.BoundingBox.size">
+            <summary> The width of the bounding box in all 3 directions </summary>
+        </member>
+        <member name="M:RayTracerLib.BoundingBox.#ctor(System.Collections.Generic.List{RayTracerLib.Triangle}@)">
+            <summary>
+            Creates the smallest BoundingBox containing all the given triangles
+            </summary>
+            <param name="triangles"> The given list of triangles </param>
+            <exception cref="T:System.ArgumentException"> Given triangle list is empty </exception>
+        </member>
+        <member name="M:RayTracerLib.BoundingBox.#ctor(System.Collections.Generic.List{System.Windows.Media.Media3D.Point3D}@)">
+            <summary>
+            Creates the smallest BoundingBox containing all the given points 
+            </summary>
+            <param name="points"> The given list of points </param>
+            <exception cref="T:System.ArgumentException"> Given point list is empty </exception>
+        </member>
+        <member name="M:RayTracerLib.BoundingBox.Rotate(System.Windows.Media.Media3D.Matrix3D@)">
+            <summary>
+            Returns the smallest BoundingBox that would 
+            contain "this" if "this" was rotated by the given rotation
+            </summary>
+            <param name="rotation"> The given rotation </param>
+            <returns>The resulting BoundingBox</returns>
+        </member>
+        <member name="M:RayTracerLib.BoundingBox.Contains(System.Windows.Media.Media3D.Point3D@)">
+            <summary>
+            Check if the BoundingBox contains the given point
+            </summary>
+            <param name="point"> The given point </param>
+            <returns>True if the BoundingBox contains the given point</returns>
+        </member>
+        <member name="M:RayTracerLib.BoundingBox.Contains(RayTracerLib.Triangle@)">
+            <summary>
+            Check if the BoundingBox contains the given triangle
+            </summary>
+            <param name="triangle"> The given triangle </param>
+            <returns>True if the BoundingBox contains the given triangle</returns>
+        </member>
+        <member name="T:RayTracerLib.CollisionFinder">
+            <summary>
+            Provides functions to find collisions
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.CollisionFinder.GetFirstCollision(RayTracerLib.Ray@,ILGPU.ArrayView{RayTracerLib.Triangle},ILGPU.ArrayView{RayTracerLib.GpuSubMesh},RayTracerLib.Triangle@,System.Double@,System.Double@,System.Double@,System.Double)">
+            <summary>
+            Finds the first collision between a ray and the scene
+            </summary>
+            <param name="ray"> The ray for which we want to find collisions </param>
+            <param name="trianglesBuffer"> The list of triangles of the scene </param>
+            <param name="subMeshesBuffer"> The list of submeshes of the scene for faster collision search </param>
+            <param name="collisionTriangle"> The triangle with which the ray has collided </param>
+            <param name="collisionAbciss"> The abciss (along the ray direction) at which the collision happened </param>
+            <param name="u"> The u component of the UV representation of the collision point on the triangle </param>
+            <param name="v"> The v component of the UV representation of the collision point on the triangle </param>
+            <param name="maxAbciss"> The abciss (along the ray direction after which all collisions shall be ignored) </param>
+            <returns> True if a collision has been found </returns>
+        </member>
+        <member name="T:RayTracerLib.Ray">
+            <summary>
+            A light ray (3D point with a direction vector)
+            </summary>
+            <remarks> This has to be a public struct because it is used in GPU code </remarks>
+        </member>
+        <member name="F:RayTracerLib.Ray.origin">
+            <summary> The starting point of the ray </summary>
+        </member>
+        <member name="F:RayTracerLib.Ray.direction">
+            <summary> The direction of the ray </summary>
+        </member>
+        <member name="F:RayTracerLib.Ray.weight">
+            <summary> The weight of this photon (intensity) </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:RayTracerLib.Ray.#ctor(System.Windows.Media.Media3D.Point3D,System.Windows.Media.Media3D.Vector3D,System.Double)" -->
+        <member name="M:RayTracerLib.Ray.GetDistanceLowerBound(RayTracerLib.Triangle@)">
+            <summary>
+            Computes a lower bound for the distance between this ray and a triangle 
+            </summary>
+            <param name="triangle"> The triangle to which we want to compute a distance lower bound </param>
+            <returns> The distance lower bound </returns>
+        </member>
+        <member name="M:RayTracerLib.Ray.Intersects(RayTracerLib.Triangle@,System.Double@,System.Double@,System.Double@)">
+            <summary>
+            Checks for intersection with a triangle
+            </summary>
+            <param name="triangle"> The triangle with which we want to test for collision </param>
+            <param name="abciss"> The abciss at which the ray intersects with the triangle </param>
+            <param name="u"> The u component of the UV representation of the collision point </param>
+            <param name="v"> The v component of the UV representation of the collision point </param>
+            <returns> True if there is an intersection </returns>
+        </member>
+        <member name="M:RayTracerLib.Ray.Intersects(RayTracerLib.BoundingBox)">
+            <summary>
+            Checks for intersection with a bounding box
+            </summary>
+            <param name="boundingBox"> The bounding box with which we want to check for intersection </param>
+            <returns> True if an intersection is found </returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:RayTracerLib.Ray.BoundingBoxIntersectionAbciss(System.Double,System.Double,System.Double,System.Double,System.Double@,System.Double@)" -->
+        <member name="T:RayTracerLib.Transform">
+            <summary>
+            Defines a 3D transformation
+            </summary>
+            
+        </member>
+        <member name="F:RayTracerLib.Transform.rotation">
+            <summary> The rotation part of the transformation </summary>
+        </member>
+        <member name="F:RayTracerLib.Transform.translation">
+            <summary> The translation part of the transformation </summary>
+        </member>
+        <member name="F:RayTracerLib.Transform.scaling">
+            <summary> The scaling part of the transformation </summary>
+        </member>
+        <member name="M:RayTracerLib.Transform.SetTranslation(System.Windows.Media.Media3D.Vector3D@)">
+            <summary>
+            Sets the translation component of the transform
+            </summary>
+            <param name="vec"> The given translation vector </param>
+        </member>
+        <member name="M:RayTracerLib.Transform.SetScaling(System.Windows.Media.Media3D.Vector3D@)">
+            <summary>
+            Sets the scaling component of the transform
+            </summary>
+            <param name="scale"> The scaling vector </param>
+        </member>
+        <member name="M:RayTracerLib.Transform.SetScaling(System.Double)">
+            <summary>
+            Sets the scaling component of the transform
+            </summary>
+            <param name="scale"> The scaling value (will be applied to X, Y and Z) </param>
+        </member>
+        <member name="M:RayTracerLib.Transform.SetRotation(System.Windows.Media.Media3D.Vector3D,System.Windows.Media.Media3D.Vector3D)">
+            <summary>
+            Sets the rotation component of the transform such that applying this rotation 
+            to the x and y axis will return the X and Y vectors
+            </summary>
+            <param name="X"> The value of the x-axis vector after applying the rotation </param>
+            <param name="Y"> The value of the y-axis vector after applying the rotation </param>
+            <exception cref="T:System.ArgumentException"> X and Y shall not be of length 0  </exception>
+            <exception cref="T:System.ArgumentException"> X and Y shall be perpendicular  </exception>
+        </member>
+        <member name="M:RayTracerLib.Transform.SetRotation(System.Windows.Media.Media3D.Vector3D,System.Double)">
+            <summary>
+            Sets the rotation component from an axis of rotation and an angle
+            </summary>
+            <param name="axis"> The axis of rotation </param>
+            <param name="angle"> The angle in radians </param>
+            <exception cref="T:System.ArgumentException"> The given axis is the zero vector </exception>
+        </member>
+        <member name="M:RayTracerLib.Transform.Apply(System.Windows.Media.Media3D.Point3D@)">
+            <summary>
+            Applies this transformation to a point
+            </summary>
+            <param name="p"> The point to transform </param>
+            <returns> The transformed point </returns>
+        </member>
+        <member name="M:RayTracerLib.Transform.Apply(RayTracerLib.Triangle@)">
+            <summary>
+            Applies this transformation to a triangle
+            </summary>
+            <param name="t"> The triangle to transform </param>
+            <returns> The transformed triangle </returns>
+        </member>
+        <member name="T:RayTracerLib.TriangleVertex">
+            <summary>
+            The vertex of a triangle
+            </summary>
+            <remarks> This has to be a public struct because it is used in GPU code </remarks>
+        </member>
+        <member name="F:RayTracerLib.TriangleVertex.pos">
+            <summary> The position of this vertex </summary>
+        </member>
+        <member name="F:RayTracerLib.TriangleVertex.normal">
+            <summary> The normal at this vertex </summary>
+        </member>
+        <member name="F:RayTracerLib.TriangleVertex.texture">
+            <summary> The textures coordinates at this vertex (in UV coordinates) <br/>
+            ⚠️ May not be defined for non-textured geometries </summary>
+        </member>
+        <member name="T:RayTracerLib.Triangle">
+            <summary>
+            A triangle
+            </summary>
+            <remarks> This has to be a public struct because it is used in GPU code </remarks>
+        </member>
+        <member name="F:RayTracerLib.Triangle.A">
+            <summary> The A vertex </summary>
+        </member>
+        <member name="F:RayTracerLib.Triangle.B">
+            <summary> The B vertex </summary>
+        </member>
+        <member name="F:RayTracerLib.Triangle.C">
+            <summary> The C vertex </summary>
+        </member>
+        <member name="F:RayTracerLib.Triangle.textureIndex">
+            <summary> Texture index in the Textures Library, -1 for non-textured triangle </summary>
+        </member>
+        <member name="F:RayTracerLib.Triangle.materialIndex">
+            <summary> Material index in the Materials Library </summary>
+        </member>
+        <member name="M:RayTracerLib.Triangle.#ctor(System.Windows.Media.Media3D.Point3D@,System.Windows.Media.Media3D.Point3D@,System.Windows.Media.Media3D.Point3D@,System.Int32)">
+            <summary>
+            Creates a basic triangle from 3 points and a material index <br/>
+            ⚠️ The triangle will not be textured and there will be no normals interpolation, more complex triangles must be handcrafted
+            </summary>
+            <param name="_A"> First point of the triangle </param>
+            <param name="_B"> Second point of the triangle </param>
+            <param name="_C"> Third point of the triangle </param>
+            <param name="_materialIndex"> The index of the triangle's material in the materials library </param>
+            <exception cref="T:System.ArgumentException"> _A _B and _C do not form a triangle </exception>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:RayTracerLib.Triangle.GetNormal(System.Double,System.Double)" -->
+        <member name="T:RayTracerLib.Material">
+            <summary>
+            Material definition
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.Material.#ctor">
+            <summary> Constructor </summary>
+        </member>
+        <member name="F:RayTracerLib.Material.color">
+            <summary> The RGB color of this material 
+            ⚠️ color is encoded with doubles for more precise results but the max value is still 255</summary>
+        </member>
+        <member name="F:RayTracerLib.Material.ambientCoeff">
+            <summary> Ambiant coefficient (See Phong Model) </summary>
+        </member>
+        <member name="F:RayTracerLib.Material.diffuseCoeff">
+            <summary> Diffuse coefficient (See Phong Model) </summary>
+        </member>
+        <member name="F:RayTracerLib.Material.specularCoeff">
+            <summary> Specular coefficient (See Phong Model) </summary>
+        </member>
+        <member name="F:RayTracerLib.Material.shininess">
+            <summary> The shininess (See Phong Model) </summary>
+        </member>
+        <member name="F:RayTracerLib.Material.reflectiveCoeff">
+            <summary> Reflective coefficient (0 -> 1) </summary>
+        </member>
+        <member name="F:RayTracerLib.Material.transparencyCoeff">
+            <summary> Transparency coefficient (0 -> 1) </summary>
+        </member>
+        <member name="F:RayTracerLib.Material.transparencyIndex">
+            <summary> Transparency index (>1 , see Fresnel laws) </summary>
+        </member>
+        <member name="T:RayTracerLib.MaterialsLibrary">
+            <summary>
+            The container for the scene's materials
+            </summary>
+        </member>
+        <member name="F:RayTracerLib.MaterialsLibrary._materials">
+            <summary> The materials </summary>
+        </member>
+        <member name="M:RayTracerLib.MaterialsLibrary.AddMaterial(RayTracerLib.Material)">
+            <summary>
+            Adds a new material
+            </summary>
+            <param name="material"> The material to add </param>
+            <returns> The index of the added material </returns>
+        </member>
+        <member name="M:RayTracerLib.MaterialsLibrary.Get">
+            <summary>
+            Gets the list of materials
+            </summary>
+            <returns> the list of materials </returns>
+        </member>
+        <member name="T:RayTracerLib.TextureLibrary">
+            <summary>
+            The container for the scene's textures
+            </summary>
+        </member>
+        <member name="F:RayTracerLib.TextureLibrary._textures">
+            <summary> The textures</summary>
+        </member>
+        <member name="M:RayTracerLib.TextureLibrary.LoadTexture(System.String)">
+            <summary>
+            Loads a texture from an image file
+            </summary>
+            <param name="filename"> The path to the image to load </param>
+            <returns>The index of the loaded texture</returns>
+            <exception cref="T:System.Exception"> could not load texture </exception>
+        </member>
+        <member name="M:RayTracerLib.TextureLibrary.Get">
+            <summary>
+            Gets the textures list
+            </summary>
+            <returns> The textures list </returns>
+        </member>
+        <member name="T:RayTracerLib.MeshesFactory">
+            <summary>
+            Util class to generate basic meshes
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.MeshesFactory.CreateCube(System.Int32)">
+            <summary>
+            Creates a cube mesh
+            </summary>
+            <param name="materialIndex"> The material index of the cube </param>
+            <returns> The cube mesh </returns>
+        </member>
+        <member name="M:RayTracerLib.MeshesFactory.CreateSphere(System.Int32,System.Int32)">
+            <summary>
+            Creates a sphere mesh
+            </summary>
+            <param name="sampling"> The amount of sampling </param>
+            <param name="materialIndex"> The material index of the sphere </param>
+            <returns> The sphere mesh </returns>
+        </member>
+        <member name="M:RayTracerLib.MeshesFactory.CreateRhomboid(System.Windows.Media.Media3D.Point3D,System.Windows.Media.Media3D.Vector3D,System.Windows.Media.Media3D.Vector3D,System.Int32)">
+            <summary>
+            Create triangles that form a rhomboid
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.MeshesFactory.CreateRhomboid3D(System.Windows.Media.Media3D.Vector3D,System.Windows.Media.Media3D.Vector3D,System.Windows.Media.Media3D.Vector3D,System.Int32)">
+            <summary>
+            Create triangles that form a 3D rhomboid
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.MeshesFactory.FromSphericCoordinates(System.Double,System.Double)">
+            <summary>
+            Converts from spherical to cartesian coordinates
+            </summary>
+        </member>
+        <member name="T:RayTracerLib.ObjParser">
+            <summary>
+            Class used to load .obj files, supported features below 
+             - Faces (required)
+             - Normals (required)
+             - Textures (required)
+             
+             Faces are expected to be convex and to follow the right hand convention <br/>
+             ⚠️ materials not supported yet
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.ObjParser.Parse(System.String,System.Int32,System.Int32)">
+            <summary>
+            Parses a .obj file to generate a SmartMesh
+            </summary>
+            <param name="filename"> The path to the file to parse </param>
+            <param name="materialIndex"> The material index of the generated SmartMesh </param>
+            <param name="textureIndex"> The texture index of the generated SmartMesh </param>
+            <returns> a SmartMesh </returns>
+            <exception cref="T:System.IO.IOException"> Failed to read texture file </exception>
+        </member>
+        <member name="M:RayTracerLib.ObjParser.ParseVertex(System.String)">
+            <summary>
+            Parses a vertex line
+            </summary>
+            <param name="line"> the line to parse </param>
+            <returns> the parsed vertex </returns>
+            <exception cref="T:System.Exception"> Invalid vertex line </exception>
+        </member>
+        <member name="M:RayTracerLib.ObjParser.ParseNormal(System.String)">
+            <summary>
+            Parses a normal line
+            </summary>
+            <param name="line"> The line to parse </param>
+            <returns> The parsed normal </returns>
+            <exception cref="T:System.Exception">Invalid normal line</exception>
+        </member>
+        <member name="M:RayTracerLib.ObjParser.ParseTexture(System.String)">
+            <summary>
+            Parses a texture coordinates line
+            </summary>
+            <param name="line">The line to parse</param>
+            <returns>The parsed texture coordinate</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:RayTracerLib.ObjParser.ParseFace(System.String,System.Collections.Generic.List{System.Windows.Media.Media3D.Point3D},System.Collections.Generic.List{System.Windows.Media.Media3D.Vector3D},System.Collections.Generic.List{OpenCvSharp.Point2d},System.Int32,System.Int32)">
+            <summary>
+            Parses a face line
+            </summary>
+            <param name="line">The line to parse</param>
+            <param name="vertices">The vertices previously parsed</param>
+            <param name="normals">The normals previously parsed</param>
+            <param name="textures">The textures previously parsed</param>
+            <param name="materialIndex">The material index for this face</param>
+            <param name="textureIndex">The texture index for this face</param>
+            <returns>The triangles of the parsed face</returns>
+            <exception cref="T:System.Exception">Invalid face line</exception>
+        </member>
+        <member name="M:RayTracerLib.ObjParser.ParseTriangleVertex(System.String,System.Collections.Generic.List{System.Windows.Media.Media3D.Point3D},System.Collections.Generic.List{System.Windows.Media.Media3D.Vector3D},System.Collections.Generic.List{OpenCvSharp.Point2d})">
+            <summary>
+            Parses a TriangleVertex field (pos + normal + texture)
+            </summary>
+            <param name="line">The line to parse</param>
+            <param name="vertices">The previously parsed vertices</param>
+            <param name="normals">The previously parsed normals</param>
+            <param name="textures">The previously parsed textures</param>
+            <returns>The parsed TriangleVertex</returns>
+            <exception cref="T:System.Exception">Invalid field</exception>
+        </member>
+        <member name="M:RayTracerLib.ObjParser.ParseDouble(System.String)">
+            <summary>
+            Parses a double
+            </summary>
+            <param name="s"> The string to parse </param>
+            <returns>The parsed double</returns>
+        </member>
+        <member name="T:RayTracerLib.SmartMesh">
+            <summary>
+            A mesh structure that recursively stores triangles 
+            in a tree structure that makes collision detection very fast. <br/>
+            ⚠️ The triangles will be moved and scaled such that 
+            their bounding box is centered around 0 and has a max size of 1 in any direction
+            </summary>
+        </member>
+        <member name="F:RayTracerLib.SmartMesh.triangles">
+            <summary> The triangles contained by this node of the SmartMesh tree </summary>
+        </member>
+        <member name="F:RayTracerLib.SmartMesh.boundingBox">
+            <summary> The bounding box associated with this node </summary>
+        </member>
+        <member name="F:RayTracerLib.SmartMesh.children">
+            <summary> The children of this node </summary>
+        </member>
+        <member name="M:RayTracerLib.SmartMesh.#ctor">
+            <summary> Constructor </summary>
+        </member>
+        <member name="M:RayTracerLib.SmartMesh.#ctor(System.Collections.Generic.List{RayTracerLib.Triangle},System.Boolean)">
+            <summary>
+            Actual constructor :
+             - compute the bounding box of the given triangles
+             - split this bounding box in 8 smaller ones if it contains too many triangles
+             - allocate each triangle to the bounding box that contains it
+             - repeat recursively
+            </summary>
+            <param name="mesh"> The list of triangles this SmartMesh will contain</param>
+            <param name="isRoot"> True if this is the root (used to normalize the root bounding box)</param>
+            <exception cref="T:System.ArgumentException"> The input list can not be empty </exception>
+        </member>
+        <member name="M:RayTracerLib.SmartMesh.NormalizeRootBoundingBox(System.Collections.Generic.List{RayTracerLib.Triangle},RayTracerLib.BoundingBox@)">
+            <summary>
+            Normalizes the root bounding box such that it is centered on 0 and of size 1 in all directions,
+            applies the same transformation to the triangles 
+            </summary>
+            <param name="triangles"> The triangles contained by the bounding box </param>
+            <param name="boundingBox"> The bounding box to transform </param>
+        </member>
+        <member name="M:RayTracerLib.SmartMesh.ToGlobalFrame(RayTracerLib.Transform)">
+            <summary>
+            Transforms this SmartMesh in the global frame
+            </summary>
+            <param name="tf"> The tf to apply to transform this SmartMesh </param>
+            <returns>The transformed SmartMesh</returns>
+        </member>
+        <member name="T:RayTracerLib.Photon">
+            <summary> A photon, used for photon mapping </summary>
+        </member>
+        <member name="M:RayTracerLib.Photon.#ctor">
+            <summary> A photon, used for photon mapping </summary>
+        </member>
+        <member name="F:RayTracerLib.Photon.color">
+            <summary> The color of the photon (r g b) </summary>
+        </member>
+        <member name="F:RayTracerLib.Photon.ray">
+            <summary> The position and direction of the photon </summary>
+        </member>
+        <member name="F:RayTracerLib.Photon.isCaustic">
+            <summary> Has this photon hit a transparent / reflective material ? </summary>
+        </member>
+        <member name="T:RayTracerLib.PhotonMapper">
+            <summary>
+            Class used to perform the photon mapping computations
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.PhotonMapper.Run(RayTracerLib.Scene@,ILGPU.Runtime.Accelerator,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.Triangle,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.GpuSubMesh,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.Material,ILGPU.Stride1D.Dense}@)">
+            <summary>
+            Runs the photon mapping computations
+            </summary>
+            <param name="scene"> The scene on which photon mapping should be performed </param>
+            <param name="accelerator"> The CUDA accelerator </param>
+            <param name="trianglesBuffer"> The Gpu buffer containing the triangles of the scene </param>
+            <param name="subMeshesBuffer"> The Gpu buffer containing the sub-meshes of the scene </param>
+            <param name="materialsBuffer"> The Gpu buffer containing the materials of the scene </param>
+            <returns></returns>
+        </member>
+        <member name="M:RayTracerLib.PhotonMapper.Kernel(ILGPU.Index1D,ILGPU.ArrayView{RayTracerLib.Triangle},ILGPU.ArrayView{RayTracerLib.GpuSubMesh},ILGPU.ArrayView{RayTracerLib.Material},ILGPU.ArrayView{RayTracerLib.Photon},ILGPU.ArrayView{ILGPU.Algorithms.Random.XorShift128Plus})">
+            <summary>
+            Propagates a photon across the scene until it hits a non caustic material
+            (or it bounces / refracts more than N times)
+            </summary>
+            <param name="photonIndex"> The index of the photon to propagate in the photons buffer </param>
+            <param name="trianglesBuffer"> The Gpu buffer containing the triangles of the scene </param>
+            <param name="subMeshesBuffer"> The Gpu buffer containing the sub-meshes of the scene </param>
+            <param name="materialsBuffer"> The Gpu buffer containing the materials of the scene </param>
+            <param name="photonsBuffer"> The Gpu buffer containing the photons </param>
+            <param name="randomBuffer"> A Gpu buffer to generate random numbers </param>
+        </member>
+        <member name="M:RayTracerLib.PhotonMapper.CastPhoton(System.Int32,ILGPU.ArrayView{RayTracerLib.Triangle},ILGPU.ArrayView{RayTracerLib.GpuSubMesh},ILGPU.ArrayView{RayTracerLib.Material},ILGPU.ArrayView{RayTracerLib.Photon},ILGPU.ArrayView{ILGPU.Algorithms.Random.XorShift128Plus})">
+            <summary>
+            Propagates a photon across the scene until its next collision
+            </summary>
+            <param name="photonIndex"> The index of the photon to propagate in the photons buffer </param>
+            <param name="trianglesBuffer"> The Gpu buffer containing the triangles of the scene </param>
+            <param name="subMeshesBuffer"> The Gpu buffer containing the sub-meshes of the scene </param>
+            <param name="materialsBuffer"> The Gpu buffer containing the materials of the scene </param>
+            <param name="photonsBuffer"> The Gpu buffer containing the photons </param>
+            <param name="randomBuffer"> A Gpu buffer to generate random numbers </param>
+            <returns> True if the photon hits a non-caustic material and we can stop propagating it </returns>
+        </member>
+        <member name="T:RayTracerLib.PhotonTree">
+            <summary>
+            A KD-Tree for fast K nearest neighbors search 
+            </summary>
+        </member>
+        <member name="F:RayTracerLib.PhotonTree.data">
+            <summary> The photon of this node </summary>
+        </member>
+        <member name="F:RayTracerLib.PhotonTree.axis">
+            <summary> The axis along which this node splits the photons (0 -> X, 1 -> Y, 2 -> Z) </summary>
+        </member>
+        <member name="F:RayTracerLib.PhotonTree.count">
+            <summary> The number of photons contained by this tree </summary>
+        </member>
+        <member name="F:RayTracerLib.PhotonTree.left">
+            <summary> The children of this node </summary>
+        </member>
+        <member name="F:RayTracerLib.PhotonTree.right">
+            <summary> The children of this node </summary>
+        </member>
+        <member name="F:RayTracerLib.PhotonTree.depth">
+            <summary> The depht of this tree </summary>
+        </member>
+        <member name="M:RayTracerLib.PhotonTree.#ctor(System.Collections.Generic.List{RayTracerLib.Photon},System.Int32)">
+            <summary>
+            Creates a balanced KD-Tree from a list of photons
+            </summary>
+            <param name="photons"> The list of photons </param>
+            <param name="ax"> The axis along which the first node should split the data (0 -> X, 1 -> Y, 2 -> Z) </param>
+        </member>
+        <member name="M:RayTracerLib.PhotonTree.GetAxisValue(System.Windows.Media.Media3D.Point3D@,System.Int32)">
+            <summary>
+            Computes the value of a point along a given abciss
+            </summary>
+            <param name="p"> The point </param>
+            <param name="axis"> The abciss </param>
+            <returns> 
+            axis = 0 : p.X <br/>
+            axis = 1 : p.Y <br/>
+            axis = 2 : p.Z <br/>
+            default  : 0
+            </returns>
+        </member>
+        <member name="T:RayTracerLib.Caustic">
+            <summary>
+            Caustic light behavior
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.Caustic.Compute(System.Int32,System.Int32,ILGPU.ArrayView{RayTracerLib.GpuPhotonNeighbor})">
+            <summary>
+            Computes the caustic light of a ray given the neighboring photons
+            </summary>
+            <param name="neighborsStartIndex"> The index of the first neighboring photon in the photons buffer </param>
+            <param name="nNeighbors"> The number of neighboring photons </param>
+            <param name="photonsNeighborsBuffer"> The buffer of neighboring photons </param>
+            <returns> The color of the caustic light </returns>
+        </member>
+        <member name="T:RayTracerLib.PhongModel">
+            <summary>
+            Phong model for light behavior
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.PhongModel.Compute(RayTracerLib.Ray,RayTracerLib.Material,System.Windows.Media.Media3D.Point3D,System.Windows.Media.Media3D.Vector3D,System.Windows.Media.Media3D.Vector3D,RayTracerLib.LightSource,System.Windows.Media.Media3D.Vector3D@,System.Windows.Media.Media3D.Vector3D@)">
+            <summary>
+            Computes the phong model for a given collision and light source
+            </summary>
+            <param name="ray"> The ray </param>
+            <param name="material"> The material that was hit </param>
+            <param name="collisionPoint"> The collision point </param>
+            <param name="collisionNormal"> The collision normal </param>
+            <param name="collisionColor"> The color of the material at the collision point </param>
+            <param name="lightSource"> The light source for which we want to compute the phong model </param>
+            <param name="ambiantPart"> The ambiant part of lighting </param>
+            <param name="phongPart"> The diffusive and specular parts of lighting </param>
+        </member>
+        <member name="T:RayTracerLib.Reflection">
+            <summary>
+            Reflected light behavior
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.Reflection.Compute(RayTracerLib.Material@,RayTracerLib.Ray@,System.Windows.Media.Media3D.Point3D@,System.Windows.Media.Media3D.Vector3D@,RayTracerLib.Ray@,System.Double@)">
+            <summary>
+            Compute the probability of reflection and the reflection behavior for a given collision
+            </summary>
+            <param name="material"> The material of the collision </param>
+            <param name="ray"> The ray that will be reflected </param>
+            <param name="collisionPoint"> The collision point </param>
+            <param name="collisionNormal"> The collision normal </param>
+            <param name="reflectedRay"> The ray after reflection </param>
+            <param name="reflectionCoeff"> The probability of reflection </param>
+            <returns> true if a reflection can happen </returns>
+        </member>
+        <member name="M:RayTracerLib.Reflection.GetReflectionCoeff(RayTracerLib.Material@,RayTracerLib.Ray@,System.Windows.Media.Media3D.Vector3D@)">
+            <summary>
+            Computes the reflection probability of a collision
+            </summary>
+            <param name="material"> The material with which the ray collides </param>
+            <param name="ray"> The ray </param>
+            <param name="collisionNormal"> The collision normal </param>
+            <returns> The reflection probability </returns>
+        </member>
+        <member name="T:RayTracerLib.Refraction">
+            <summary>
+            Refracted light behavior
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.Refraction.Compute(RayTracerLib.Material@,RayTracerLib.Ray@,System.Windows.Media.Media3D.Point3D@,System.Windows.Media.Media3D.Vector3D@,RayTracerLib.Ray@,System.Double@)">
+            <summary>
+            Computes the probability of refraction and the refracted ray
+            </summary>
+            <param name="material"> The material of the collision </param>
+            <param name="ray"> The ray that will be refracted </param>
+            <param name="collisionPoint"> The collision point </param>
+            <param name="collisionNormal"> The collision normal </param>
+            <param name="refractedRay"> The ray after refraction </param>
+            <param name="refractionCoeff"> The probability of refraction </param>
+            <returns> true if a refraction can happen </returns>
+        </member>
+        <member name="T:RayTracerLib.Shadow">
+            <summary>
+            Shadows behavior
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.Shadow.Compute(System.Windows.Media.Media3D.Point3D,RayTracerLib.LightSource,ILGPU.ArrayView{RayTracerLib.Triangle},ILGPU.ArrayView{RayTracerLib.GpuSubMesh})">
+            <summary>
+            Computes the shadow intensity at a given point for a given light source
+            </summary>
+            <param name="collisionPoint"> The point at which we want to compute the shadow intensity </param>
+            <param name="lightSource"> The light source for which we want to compute the shadow intensity </param>
+            <param name="trianglesBuffer"> The triangles of the scene </param>
+            <param name="subMeshesBuffer"> The sub-meshes of the scene </param>
+            <returns> a double between 0 and 1 (0 -> no shadow, 1 -> full shadow) </returns>
+        </member>
+        <member name="T:RayTracerLib.PhotonsLoader">
+            <summary>
+            Class used to load data to the GPU for photon mapping
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.PhotonsLoader.InitPhotonMapping(RayTracerLib.Scene@,ILGPU.Runtime.Accelerator,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.Photon,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{ILGPU.Algorithms.Random.XorShift128Plus,ILGPU.Stride1D.Dense}@)">
+            <summary>
+            Loads all the data needed on the GPU to perform the photon mapping algorithm
+            </summary>
+            <param name="scene"> The scene </param>
+            <param name="accelerator"> The CUDA accelerator </param>
+            <param name="photonsBuffer"> The buffer containing the photons </param>
+            <param name="randomBuffer"> The buffer used for random numbers generation </param>
+        </member>
+        <member name="M:RayTracerLib.PhotonsLoader.CreatePhotonEmissionPattern">
+            <summary>
+            Creates the photon emission pattern of a light source
+            </summary>
+            <returns> The list of photons that a light source will emit </returns>
+        </member>
+        <member name="M:RayTracerLib.PhotonsLoader.LoadPhotonsTree(RayTracerLib.PhotonTree,ILGPU.Runtime.Accelerator,System.Int32,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.GpuPhotonTreeNode,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.GpuPhotonNeighbor,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{System.Byte,ILGPU.Stride1D.Dense}@)">
+            <summary>
+            Loads the photons tree on the GPU after the photon mapping step
+            </summary>
+            <param name="tree"> The photons tree to load </param>
+            <param name="accelerator"> The cuda accelerator </param>
+            <param name="nPixels"> The number of pixels that the final image will contain </param>
+            <param name="photonsTreeBuffer"> The buffer that will contain the tree </param>
+            <param name="photonsNearestNeighborsBuffer"> The buffer that will contain the nearest photons for a given pixel </param>
+            <param name="photonsSearchStateBuffer"> The buffer that will contain the k nearest neighbors search state for each pixel </param>
+        </member>
+        <member name="M:RayTracerLib.PhotonsLoader.ConstructPhotonsTree(RayTracerLib.PhotonTree,System.Collections.Generic.List{RayTracerLib.GpuPhotonTreeNode})">
+            <summary>
+            Recursive function to turn a photons tree to a GpuPhotonTreeNode flat array
+            </summary>
+            <param name="tree"> The tree to convert </param>
+            <param name="photonsTreeBuffer"> The array that will contain the data </param>
+            <returns> The index of the root node </returns>
+        </member>
+        <member name="T:RayTracerLib.SceneLoader">
+            <summary>
+            Class used to load all the scene data on the GPU
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.SceneLoader.LoadScene(RayTracerLib.Scene@,ILGPU.Runtime.Accelerator,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.Ray,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.Triangle,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.GpuSubMesh,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.LightSource,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.Material,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{OpenCvSharp.Vec3b,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{RayTracerLib.GpuTextureMetadata,ILGPU.Stride1D.Dense}@,ILGPU.Runtime.MemoryBuffer1D{System.Windows.Media.Media3D.Vector3D,ILGPU.Stride1D.Dense}@)">
+            <summary>
+            Loads all the scene data on the GPU
+            </summary>
+            <param name="scene"> The scene to load on the GPU </param>
+            <param name="accelerator"> The CUDA accelerator </param>
+            <param name="raysBuffer"> The GPU buffer that contains the rays for raytracing </param>
+            <param name="trianglesBuffer"> The GPU buffer that contains the scene triangles </param>
+            <param name="subMeshesBuffer"> The GPU buffer that contains the scene submeshes </param>
+            <param name="lightSourcesBuffer"> The GPU buffer that contains the scene light sources </param>
+            <param name="materialsBuffer"> The GPU buffer that contains the scene materials </param>
+            <param name="texturesDataBuffer"> The GPU buffer that contains the textures of the assets </param>
+            <param name="texturesMetadataBuffer"> The GPU buffer that contains the textures metadata </param>
+            <param name="pixelsBuffer"> The GPU buffer that contains the pixels of the output image </param>
+        </member>
+        <member name="M:RayTracerLib.SceneLoader.LoadSmartMesh(RayTracerLib.SmartMesh@,System.Collections.Generic.List{RayTracerLib.GpuSubMesh},System.Collections.Generic.List{RayTracerLib.Triangle})">
+            <summary>
+            recursive function that converts a smart mesh to GPU format 
+            </summary>
+            <param name="mesh"> The mesh to convert </param>
+            <param name="gpuSubMeshes"> The GPU formated mesh </param>
+            <param name="gpuTriangles"> The GPU triangles contained by the mesh </param>
+        </member>
+        <member name="T:RayTracerLib.NearestNeighborSearch">
+            <summary>
+            Class used to perform a non-recursive K nearest neighbors search in a flat list 
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.NearestNeighborSearch.Run(System.Int32,System.Windows.Media.Media3D.Point3D,System.Int32,ILGPU.ArrayView{RayTracerLib.GpuPhotonTreeNode},ILGPU.ArrayView{RayTracerLib.GpuPhotonNeighbor},ILGPU.ArrayView{System.Byte})">
+            <summary>
+            performs a non-recursive K nearest neighbors search in a flat list. <br/>
+            Algorithm : 
+            - First time we arrive on a node, we go to its "best" child (the one that is on the same size as the input point)
+            - Second time we arrive on a node, we go to its "worst" child if we need to (see knn search in kd trees) 
+            - Third time we arrive on a node, we go back to its parent
+            </summary>
+            <param name="pixelIndex"> The index of the pixel for which we are running this search </param>
+            <param name="point"> The point for which we want to search neighbors</param>
+            <param name="treeDepth"> The depth of the "tree" we are searching </param>
+            <param name="photonsTreeBuffer"> The GPU buffer containing the tree data </param>
+            <param name="photonsNeighborsBuffer"> The GPU buffer that will contain the neighbors found </param>
+            <param name="photonsSearchStateBuffer"> The GPU buffer that will contain the state of the search (the number of visits at each depth)</param>
+            <returns> The number of neighbors found </returns>
+        </member>
+        <member name="M:RayTracerLib.NearestNeighborSearch.UpdateNumberOfVisits(System.Int32,System.Int32,System.Int32,ILGPU.ArrayView{System.Byte})">
+            <summary>
+            Updates the number of visits of a node in the photons tree
+            </summary>
+            <param name="pixelIndex"> The index of the pixel for which we are running this search </param>
+            <param name="currentDepth"> The current depth in the tree </param>
+            <param name="treeDepth"> The depth of the tree </param>
+            <param name="photonsSearchStateBuffer"> The state of the search (number of visits at each depth) </param>
+            <returns></returns>
+        </member>
+        <member name="M:RayTracerLib.NearestNeighborSearch.AddToNearestNeighbors(System.Int32,System.Int32,System.Int32@,System.Windows.Media.Media3D.Point3D,ILGPU.ArrayView{RayTracerLib.GpuPhotonTreeNode},ILGPU.ArrayView{RayTracerLib.GpuPhotonNeighbor})">
+            <summary>
+            Adds a node to the nearest neighbors buffer if it belongs in there
+            </summary>
+            <param name="nodeIndex"> The index of the node to add </param>
+            <param name="neighborsStartIndex"> The first index of the nearest neighbors buffer </param>
+            <param name="nNeighborsFound"> The number of neighbors found </param>
+            <param name="point"> The point for which we want to find neighbors </param>
+            <param name="photonsTreeBuffer"> The buffer containing the tree data </param>
+            <param name="photonsNeighborsBuffer"> The buffer containing the neighbors </param>
+        </member>
+        <member name="M:RayTracerLib.NearestNeighborSearch.GetWorstNeighborDistSquared(System.Int32,System.Int32,ILGPU.ArrayView{RayTracerLib.GpuPhotonNeighbor})">
+            <summary>
+            Gets the distance of the worst neighbor among the k nearest
+            </summary>
+            <param name="neighborsStartIndex"> The first index of the nearest neighbors buffer </param>
+            <param name="nNeighborsFound"> The number of neighbors found </param>
+            <param name="photonsNeighborsBuffer"> The buffer containing the neighbors </param>
+            <returns></returns>
+        </member>
+        <member name="T:RayTracerLib.RayTracer">
+            <summary>
+            Performs the raytracing algorithm
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:RayTracerLib.RayTracer.context" -->
+        <!-- Badly formed XML comment ignored for member "F:RayTracerLib.RayTracer.accelerator" -->
+        <!-- Badly formed XML comment ignored for member "F:RayTracerLib.RayTracer.kernel" -->
+        <member name="M:RayTracerLib.RayTracer.#ctor">
+            <summary>
+            Inits the cuda context and compiles the kernel
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.RayTracer.Run(RayTracerLib.Scene@)">
+            <summary>
+            Runs the raytracing algorithm : 
+            - Perform the photon mapping step
+            - Create the photons tree
+            - Perform the raytracing step
+            - Create the output image
+            </summary>
+            <param name="scene"> The scene to render </param>
+            <returns> The rendered image </returns>
+        </member>
+        <member name="M:RayTracerLib.RayTracer.ConvertColor(System.Windows.Media.Media3D.Vector3D)">
+            <summary>
+            Converts a color from (double r, double g, double b) to opencv format
+            </summary>
+            <param name="c"> the color to convert </param>
+            <returns> The converted opencv color </returns>
+        </member>
+        <member name="M:RayTracerLib.RayTracer.Kernel(ILGPU.Index1D,ILGPU.ArrayView{RayTracerLib.Ray},ILGPU.ArrayView{RayTracerLib.Triangle},ILGPU.ArrayView{RayTracerLib.GpuSubMesh},ILGPU.ArrayView{RayTracerLib.LightSource},ILGPU.ArrayView{RayTracerLib.Material},ILGPU.ArrayView{OpenCvSharp.Vec3b},ILGPU.ArrayView{RayTracerLib.GpuTextureMetadata},ILGPU.ArrayView{RayTracerLib.GpuPhotonTreeNode},ILGPU.ArrayView{RayTracerLib.GpuPhotonNeighbor},ILGPU.ArrayView{System.Byte},ILGPU.ArrayView{System.Windows.Media.Media3D.Vector3D})">
+            <summary>
+            The Cuda kernel that will perform the raytracing algorithm for a given pixel
+            </summary>
+            <param name="index"> The index of the pixel </param>
+            <param name="raysBuffer"> The GPU buffer that contains the rays that we should cast </param>
+            <param name="trianglesBuffer"> The GPU buffer that contains the triangles of the scene </param>
+            <param name="subMeshesBuffer"> The GPU buffer that contains the submeshes of the scene </param>
+            <param name="lightSourcesBuffer"> The GPU buffer that contains the light sources of the scene </param>
+            <param name="materialsBuffer"> The GPU buffer that contains the materials of the scene </param>
+            <param name="texturesDataBuffer"> The GPU buffer that contains the textures of the scene </param>
+            <param name="texturesMetadataBuffer"> The GPU buffer that contains the textures metadata </param>
+            <param name="photonsTreeBuffer"> The GPU buffer that contains the photons computed by the photon mapping step </param>
+            <param name="photonsNearestNeighborsBuffer"> The GPU buffer that will contain the nearest neighbor photons for each pixel </param>
+            <param name="photonsSearchStateBuffer"> The GPU buffer that will contain the nearest neighbor search state for each pixel </param>
+            <param name="pixelsBuffer"> The GPU buffer that contains the data of the output image </param>
+        </member>
+        <member name="M:RayTracerLib.RayTracer.ProcessRayCollision(System.Int32,System.Int32,System.Int32@,System.Int32,RayTracerLib.Material,System.Windows.Media.Media3D.Point3D,System.Windows.Media.Media3D.Vector3D,System.Windows.Media.Media3D.Vector3D,ILGPU.ArrayView{RayTracerLib.Ray},ILGPU.ArrayView{RayTracerLib.Triangle},ILGPU.ArrayView{RayTracerLib.GpuSubMesh},ILGPU.ArrayView{RayTracerLib.LightSource},ILGPU.ArrayView{RayTracerLib.GpuPhotonTreeNode},ILGPU.ArrayView{RayTracerLib.GpuPhotonNeighbor},ILGPU.ArrayView{System.Byte})">
+            <summary>
+            Computes the color for a given collision, can generate new rays to cast
+            </summary>
+            <param name="pixelIndex"> The index of the pixel on which this collision happened </param>
+            <param name="rayIndex"> The index of the ray for which we process this collision </param>
+            <param name="nextRayIndex"> The index at which we should add a new ray if needed </param>
+            <param name="photonsTreeDepth"> The depth of the photons tree computed in the photons mapping step </param>
+            <param name="collisionMaterial"> The material of the collision </param>
+            <param name="collisionPoint"> The collision point </param>
+            <param name="collisionNormal"> The collision normal </param>
+            <param name="collisionColor"> The color of the material at the collision point </param>
+            <param name="raysBuffer"> The GPU buffer that contains the rays that we should cast </param>
+            <param name="trianglesBuffer"> The GPU buffer that contains the triangles of the scene </param>
+            <param name="subMeshesBuffer"> The GPU buffer that contains the submeshes of the scene </param>
+            <param name="lightSourcesBuffer"> The GPU buffer that contains the light sources of the scene </param>
+            <param name="photonsTreeBuffer"> The GPU buffer that contains the photons computed by the photon mapping step </param>
+            <param name="photonsNearestNeighborsBuffer"> The GPU buffer that will contain the nearest neighbor photons for each pixel </param>
+            <param name="photonsSearchStateBuffer"> The GPU buffer that will contain the nearest neighbor search state for each pixel </param>
+            <returns></returns>
+        </member>
+        <member name="M:RayTracerLib.RayTracer.RecastRay(RayTracerLib.Ray@,System.Int32@,ILGPU.ArrayView{RayTracerLib.Ray})">
+            <summary>
+            Adds a new ray to the rays buffer (in case of reflection / refraction)
+            </summary>
+            <param name="ray"> The ray that we want to cast </param>
+            <param name="nextRayIndex"> A reference to the index of the next ray </param>
+            <param name="raysBuffer"> The GPU buffer that contains the rays </param>
+            <returns></returns>
+        </member>
+        <member name="M:RayTracerLib.RayTracer.GetTriangleColor(RayTracerLib.Triangle,System.Double,System.Double,ILGPU.ArrayView{RayTracerLib.Material},ILGPU.ArrayView{OpenCvSharp.Vec3b},ILGPU.ArrayView{RayTracerLib.GpuTextureMetadata})">
+            <summary>
+            Gets the color of a triangle at a given point (texture color if it is textured, material color if not)
+            </summary>
+            <param name="triangle"> The triangle </param>
+            <param name="u"> The u coordinate in the triangle (along AB) </param>
+            <param name="v"> The v coordinate in the triangle (along AC) </param>
+            <param name="materialsBuffer"> The GPU buffer containing the materials of the scene </param>
+            <param name="texturesDataBuffer"> The GPU buffer containing the textures of the scene  </param>
+            <param name="texturesMetadataBuffer"> The GPU buffer containing the textures metadata </param>
+            <returns></returns>
+        </member>
+        <member name="T:RayTracerLib.GpuSubMesh">
+            <summary> GPU version of a submesh (triangles container) </summary>
+        </member>
+        <member name="M:RayTracerLib.GpuSubMesh.#ctor">
+            <summary> GPU version of a submesh (triangles container) </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuSubMesh.boundingBox">
+            <summary> The bounding box of the submesh </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuSubMesh.firstTriangleIndex">
+            <summary> The index of the first triangle of this mesh in the triangles buffer </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuSubMesh.nTriangles">
+            <summary> The number of triangles in this mesh </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuSubMesh.nextIndex">
+            <summary> The index of the next submesh in the submesh tree that is at the same level or higher </summary>
+        </member>
+        <member name="T:RayTracerLib.GpuTextureMetadata">
+            <summary> Metadata for a texture </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuTextureMetadata.width">
+            <summary> The widht of the texture </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuTextureMetadata.height">
+            <summary> The height of the texture </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuTextureMetadata.dataIndex">
+            <summary> The index at which the texture data is stored in the textures buffer </summary>
+        </member>
+        <member name="T:RayTracerLib.GpuPhotonNeighbor">
+            <summary> A neighboring photon </summary>
+        </member>
+        <member name="M:RayTracerLib.GpuPhotonNeighbor.#ctor">
+            <summary> A neighboring photon </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuPhotonNeighbor.data">
+            <summary> The photon </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuPhotonNeighbor.distSquared">
+            <summary> The distance squared between the photon and the collision point </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuPhotonTreeNode.data">
+            <summary> The photon of this node </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuPhotonTreeNode.axis">
+            <summary> The axis along which this node splits the data (KD tree) </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuPhotonTreeNode.parentIndex">
+            <summary> The index of this node's parent </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuPhotonTreeNode.leftIndex">
+            <summary> The index of this node's left child </summary>
+        </member>
+        <member name="F:RayTracerLib.GpuPhotonTreeNode.rightIndex">
+            <summary> The index of this node's right child </summary>
+        </member>
+        <member name="T:RayTracerLib.Asset">
+            <summary>
+            An asset that contains the geometry and position of an object in the scene
+            </summary>
+        </member>
+        <member name="F:RayTracerLib.Asset.tf">
+            <summary> The position of the asset </summary>
+        </member>
+        <member name="F:RayTracerLib.Asset._smartMesh">
+            <summary> The geometry of the asset </summary>
+        </member>
+        <member name="M:RayTracerLib.Asset.#ctor(RayTracerLib.SmartMesh)">
+            <summary>
+            Creates an asset from a smartmesh
+            </summary>
+            <param name="smartMesh"> the input mesh </param>
+        </member>
+        <member name="M:RayTracerLib.Asset.GetSmartMesh">
+            <summary>
+            Computes the geometry of this asset in global frame
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:RayTracerLib.Camera">
+            <summary>
+            The camera
+            </summary>
+        </member>
+        <member name="F:RayTracerLib.Camera.tf">
+            <summary> The position of the camera </summary>
+        </member>
+        <member name="F:RayTracerLib.Camera._resolution">
+            <summary> The resolution of the camera </summary>
+        </member>
+        <member name="F:RayTracerLib.Camera._raysInLocalFrame">
+            <summary> The rays that will be cast from the camera in the camera's frame </summary>
+        </member>
+        <member name="M:RayTracerLib.Camera.#ctor(OpenCvSharp.Size,System.Double)">
+            <summary>
+            Creates a camera from a given resolution and horizontal field of view
+            </summary>
+            <param name="resolution"> The resolution of the camera </param>
+            <param name="hFov_deg"> The horizontal field of view of the camera </param>
+        </member>
+        <member name="M:RayTracerLib.Camera.GetRay(System.Int32,System.Int32)">
+            <summary>
+            Computes the ray that should be cast for a given pixel of the camera in global frame
+            </summary>
+            <param name="row"> the row of the pixel </param>
+            <param name="col"> the col of the pixel </param>
+            <returns> The ray that should be cast for this pixel </returns>
+        </member>
+        <member name="M:RayTracerLib.Camera.GetResolution">
+            <summary>
+            Resolution getter
+            </summary>
+            <returns> The resolution of the camera </returns>
+        </member>
+        <member name="T:RayTracerLib.LightSource">
+            <summary>
+            A light source
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.LightSource.#ctor">
+            <summary>
+            A light source
+            </summary>
+        </member>
+        <member name="F:RayTracerLib.LightSource.position">
+            <summary> the position of the light source </summary>
+        </member>
+        <member name="F:RayTracerLib.LightSource.diffuseIntensity">
+            <summary> the diffuse intensity of the light source </summary>
+        </member>
+        <member name="F:RayTracerLib.LightSource.specularIntensity">
+            <summary> the specular intensity of the light source </summary>
+        </member>
+        <member name="F:RayTracerLib.LightSource.ambiantIntensity">
+            <summary> the ambiant intensity of the light source </summary>
+        </member>
+        <member name="F:RayTracerLib.LightSource.radius">
+            <summary> the radius of the light source (for soft shadows, not implemented yet)</summary>
+        </member>
+        <member name="F:RayTracerLib.LightSource.color">
+            <summary> the color of the light source </summary>
+        </member>
+        <member name="T:RayTracerLib.Scene">
+            <summary>
+            The scene, contains all the data that will be rendered
+            </summary>
+        </member>
+        <member name="M:RayTracerLib.Scene.#ctor">
+            <summary>
+            The scene, contains all the data that will be rendered
+            </summary>
+        </member>
+        <member name="F:RayTracerLib.Scene.camera">
+            <summary> The camera </summary>
+        </member>
+        <member name="F:RayTracerLib.Scene.assets">
+            <summary> The assets </summary>
+        </member>
+        <member name="F:RayTracerLib.Scene.lightSources">
+            <summary> The light sources </summary>
+        </member>
+        <member name="F:RayTracerLib.Scene.materials">
+            <summary> The materials </summary>
+        </member>
+        <member name="F:RayTracerLib.Scene.textures">
+            <summary> The textures </summary>
+        </member>
+        <member name="T:RayTracerLib.Timer">
+            <summary>
+            Timer used to display processing times
+            </summary>
+            <param name="leftPadding"> the amount of left padding </param>
+        </member>
+        <member name="M:RayTracerLib.Timer.#ctor(System.Int32)">
+            <summary>
+            Timer used to display processing times
+            </summary>
+            <param name="leftPadding"> the amount of left padding </param>
+        </member>
+        <member name="M:RayTracerLib.Timer.Restart(System.String)">
+            <summary>
+            Restarts the timer and displays a message
+            </summary>
+            <param name="msg"> the message to display </param>
+        </member>
+        <member name="M:RayTracerLib.Timer.Print(System.String)">
+            <summary>
+            Prints a message followed by the time elapsed since the last restart
+            </summary>
+            <param name="msg"> the message to display </param>
+        </member>
+    </members>
+</doc>

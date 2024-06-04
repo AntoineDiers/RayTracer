@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayTracerLib", "RayTracerLib\RayTracerLib.csproj", "{50660D35-E4F9-41F9-89EE-4F068B85D51A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "Example\Example.csproj", "{B6B92227-79A2-4045-8BBE-56D86FBAB6E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50660D35-E4F9-41F9-89EE-4F068B85D51A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50660D35-E4F9-41F9-89EE-4F068B85D51A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50660D35-E4F9-41F9-89EE-4F068B85D51A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50660D35-E4F9-41F9-89EE-4F068B85D51A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6B92227-79A2-4045-8BBE-56D86FBAB6E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6B92227-79A2-4045-8BBE-56D86FBAB6E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6B92227-79A2-4045-8BBE-56D86FBAB6E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6B92227-79A2-4045-8BBE-56D86FBAB6E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B6CD7CE-F40D-4C8D-ACCF-77A415B0B399}
+	EndGlobalSection
+EndGlobal
