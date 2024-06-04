@@ -17,6 +17,20 @@ During raytracing, many "rays" are shot from the camera's position (one per outp
 The color of each of these rays is computed using Phong's model at the collision point between the ray and assets.
 If the collided material is transparent or reflective, additional rays may be shot following Fresnel Coefficients
 
+## Assets
+
+Assets can be generated in two ways : 
+- Some helper functions allow you to generate simple geometries (cube / sphere)
+- .obj files can be imported along with a texture file
+
+⚠️ .obj files parsing is not fully compliant yet :
+- materials are not parsed
+- only one texture file can be used per .obj file
+
+## Render Example
+
+![example](https://github.com/AntoineDiers/RayTracer/assets/34224948/762739d9-68f3-4819-a016-8b3efd6f065c)
+
 ## References
 
 Photon Mapping : https://web.cs.wpi.edu/~emmanuel/courses/cs563/write_ups/zackw/photon_mapping/PhotonMapping.html
@@ -25,5 +39,4 @@ Phong's Model : https://en.wikipedia.org/wiki/Phong_reflection_model
 
 Fresnel Coefficients : https://fr.wikipedia.org/wiki/Coefficients_de_Fresnel
 
-![example](https://github.com/AntoineDiers/RayTracer/assets/34224948/762739d9-68f3-4819-a016-8b3efd6f065c)
 
